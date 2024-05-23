@@ -14,9 +14,15 @@ def download_model(url):
         return None
 
 # Load CSS styles
+
 def load_css():
-    with open("style.css") as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    url = 'https://raw.githubusercontent.com/AnanyaThyagarajan/Spam-Detection/main/style.css'
+    response = requests.get(url)
+    if response.status_code == 200:
+        css_content = response.text
+        st.markdown(f'<style>{css_content}</style>', unsafe_allow_html=True)
+    else:
+        st.error('Failed to download CSS')
 
 def main():
     load_css()
@@ -25,7 +31,7 @@ def main():
    
 
     # Model URL (replace 'yourusername/yourrepo' with your actual GitHub repository path)
-    model_url = 'https://github.com/AnanyaThyagarajan/Spam-Detection/blob/main/spam_svm_model.pkl'
+    model_url = 'https://github.com/AnanyaThyagarajan/Spam-Detection/blob/main/spam_svm_model.pkl?raw=true'
     model = download_model(model_url)
     vectorizer = TfidfVectorizer(stop_words='english', max_features=10000)  # Assuming the vectorizer settings
 
