@@ -3,15 +3,13 @@ import requests
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# Function to download the model from GitHub
-def download_model(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        model = pickle.loads(response.content)
-        return model
-    else:
-        st.error("Failed to download model.")
-        return None
+
+def download_file(url):
+    """Helper function to download a file from a specified URL."""
+    response = requests.get(url, stream=True)
+    response.raise_for_status()  # This will check for HTTP errors
+    return response.content
+
 
 # Load CSS styles
 
@@ -28,26 +26,33 @@ def main():
     load_css()
     st.title('Spam Detection System')
 
-   
+    # URL for the vectorizer and model on GitHub
+    vectorizer_url = 'https://github.com/AnanyaThyagarajan/Spam-Detection/blob/main/tfidf_vectorizer.pkl?raw=true'
+    model_url = 'https://AnanyaThyagarajan/Spam-Detection/blob/main/spam_svm_model.pkl?raw=true'
 
-    # Model URL (replace 'yourusername/yourrepo' with your actual GitHub repository path)
-    model_url = 'https://github.com/AnanyaThyagarajan/Spam-Detection/blob/main/spam_svm_model.pkl?raw=true'
-    model = download_model(model_url)
-    vectorizer = TfidfVectorizer(stop_words='english', max_features=10000)  # Assuming the vectorizer settings
+    # Download and load the vectorizer and model
+    try:
+        vectorizer_data = download_file(vectorizer_url)
+        vectorizer = pickle.loads(vectorizer_data)
+        model_data = download_file(model_url)
+        model = pickle.loads(model_data)
+        st.success("Model and vectorizer loaded successfully!")
+    except Exception as e:
+        st.error(f"Failed to load files: {str(e)}")
+        return
 
-    # User input
+    # Text area for user input
     message = st.text_area("Enter the message or email content here:", height=150)
-
+    
     if st.button("Predict"):
-        if model:
-            message_tfidf = vectorizer.transform([message])
-            result = model.predict(message_tfidf)
-            
-            # Display results
-            if result[0] == 1:
-                st.error("This is a SPAM message!")
-            else:
-                st.success("This is NOT SPAM.")
+        message_tfidf = vectorizer.transform([message])
+        result = model.predict(message_tfidf)
+        
+        # Display results
+        if result[0] == 1:
+            st.error("This is a SPAM message!")
+        else:
+            st.success("This is NOT SPAM.")
 
 if __name__ == '__main__':
     main()
