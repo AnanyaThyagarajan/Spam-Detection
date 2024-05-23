@@ -24,7 +24,39 @@ def load_css():
 
 def main():
     load_css()
+
+    st.markdown
+
+    # Footer with white background, red text, and blue links
+    footer = """
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: white;  /* White background */
+        color: red;  /* Red text color */
+        text-align: center;
+        padding: 10px;
+    }
+    .footer a {  /* Styles for links */
+        color: blue;  /* Blue color for links */
+        text-decoration: none;  /* No underline */
+    }
+    .footer a:hover {
+        text-decoration: underline;  /* Underline on hover for better usability */
+    }
+    </style>
+    <div class="footer">
+        <p>Made by Ananya Krithika Thyagarajan | <a href="https://www.linkedin.com/in/ananya-krithikathyagarajan" target="_blank">LinkedIn</a> | <a href="https://github.com/AnanyaThyagarajan/Spam-Detection" target="_blank">GitHu-Rep</a></p>
+    </div>
+    """
+    st.markdown(footer, unsafe_allow_html=True)
+
     st.title('Spam Detection System')
+
+
 
     # URL for the vectorizer and model on GitHub
     vectorizer_url = 'https://github.com/AnanyaThyagarajan/Spam-Detection/blob/main/tfidf_vectorizer.pkl?raw=true'
