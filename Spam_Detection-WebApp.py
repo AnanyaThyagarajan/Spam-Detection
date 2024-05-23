@@ -25,7 +25,7 @@ def load_css():
 def main():
     load_css()
 
-    st.markdown
+    
 
     # Footer with white background, red text, and blue links
     footer = """
