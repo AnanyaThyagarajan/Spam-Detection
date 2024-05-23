@@ -28,7 +28,7 @@ def main():
 
     # URL for the vectorizer and model on GitHub
     vectorizer_url = 'https://github.com/AnanyaThyagarajan/Spam-Detection/blob/main/tfidf_vectorizer.pkl?raw=true'
-    model_url = 'https://AnanyaThyagarajan/Spam-Detection/blob/main/spam_svm_model.pkl?raw=true'
+    model_url = 'https://github.com/AnanyaThyagarajan/Spam-Detection/blob/main/spam_svm_model.pkl?raw=true'
 
     # Download and load the vectorizer and model
     try:
